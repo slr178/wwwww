@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>goghai - Hardware Testbed</title>
+  <link rel="stylesheet" href="minimal.css">
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.js"></script>
+  <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+  <script src="https://cdn.babylonjs.com/earcut.min.js"></script>
+  <style>
+    body, html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 20px;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-link {
+      color: white;
+      text-decoration: none;
+    }
+    .main-nav {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+    #renderCanvas {
+      width: 100%;
+      height: 100vh;
+        touch-action: none;
+    }
+    .arm-info {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 300px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .import-panel {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+        border-radius: 8px;
+      width: 300px;
+    }
+    .import-panel h3 {
+      margin: 0 0 15px 0;
+      font-size: 16px;
+    }
+    .import-panel input[type="file"] {
+      width: 100%;
+      margin-bottom: 10px;
+      color: white;
+    }
+    .import-panel button {
+      width: 100%;
+      padding: 10px;
+      background: #0066ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .import-panel button:hover {
+      background: #0052cc;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+        <h1>
+            <a href="index.html" class="logo-link">
+                <img src="logo.png.png" alt="GoghAI Logo">
+                <span>goghai</span>
+            </a>
+        </h1>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link" data-translate="nav_demo">Demo</a>
+      <a href="developers.html" class="nav-link" data-translate="nav_team">Meet the Team</a>
+      <a href="hardware.html" class="nav-link active" data-translate="nav_hardware">Hardware Test</a>
+      <a href="gogh.html" class="nav-link">Gogh</a>
+      <a href="token.html" class="nav-link" data-translate="nav_token">Token</a>
+      <a href="live.html" class="nav-link" data-translate="nav_live">Live Requests</a>
+    </nav>
+  </header>
+
+  <div class="language-selector">
+    <button class="language-btn" data-lang="en">EN</button>
+    <button class="language-btn" data-lang="ja">日本語</button>
+  </div>
+
+  <canvas id="renderCanvas"></canvas>
+
+  <!-- Import Panel -->
+  <div class="import-panel">
+    <h3 data-translate="hardware_import_title">Import 3D Model</h3>
+    <input type="file" id="importModelInput" accept=".glb" />
+    <button id="importModelBtn" data-translate="hardware_load_model">Load Model</button>
+  </div>
+
+  <!-- Arm Info Panel -->
+  <div class="arm-info">
+     <h3 data-translate="hardware_arm_overview">Robotic Arm Overview</h3>
+     <ul>
+      <li><strong data-translate="hardware_base_waist">Base & Waist</strong> – <span data-translate="hardware_base_waist_desc">Rotates the entire arm to sweep the workspace.</span></li>
+       <li><strong data-translate="hardware_shoulder">Shoulder Joint</strong> – <span data-translate="hardware_shoulder_desc">Lifts the upper arm; main load-bearing axis.</span></li>
+       <li><strong data-translate="hardware_elbow">Elbow Joint</strong> – <span data-translate="hardware_elbow_desc">Extends reach for interior stroke points.</span></li>
+       <li><strong data-translate="hardware_wrist">Wrist Pitch/Yaw</strong> – <span data-translate="hardware_wrist_desc">Keeps the pen normal to the canvas.</span></li>
+       <li><strong data-translate="hardware_end_effector">End-Effector</strong> – <span data-translate="hardware_end_effector_desc">Holds pens/brushes with force sensing.</span></li>
+     </ul>
+
+  </div>
+
+<script>
+const canvas = document.getElementById("renderCanvas");
+const engine = new BABYLON.Engine(canvas, true);
+
+const createScene = () => {
+  const scene = new BABYLON.Scene(engine);
+  scene.clearColor = new BABYLON.Color3(0, 0, 0.2);
+
+  // Camera setup
+  const camera = new BABYLON.ArcRotateCamera("camera", 
+    -Math.PI/2, Math.PI/3, 25,
+    new BABYLON.Vector3(0, 0, 0),
+    scene
+  );
+  camera.attachControl(canvas, true);
+  camera.lowerRadiusLimit = 5;
+  camera.upperRadiusLimit = 50;
+
+  // Lighting
+  new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+  
+  // Ground
+  const ground = BABYLON.MeshBuilder.CreateGround("ground", {
+    width: 100,
+    height: 100,
+    subdivisions: 20
+  }, scene);
+  ground.position.y = -3.5;
+  
+  const groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
+  groundMaterial.diffuseTexture = new BABYLON.Texture("https://upload.wikimedia.org/wikipedia/commons/4/45/Blender3D_BW_Grid_256.png", scene);
+  groundMaterial.specularColor = BABYLON.Color3.Black();
+  ground.material = groundMaterial;
+
+  // Load robot arm
+  BABYLON.SceneLoader.ImportMesh("", "./", "robot_arm.glb", scene, (meshes) => {
+    const armRoot = meshes[0];
+    armRoot.scaling = new BABYLON.Vector3(10, 10, 10);
+    
+    // Center the arm
+      const bbox = armRoot.getHierarchyBoundingVectors();
+      const center = bbox.min.add(bbox.max).scale(0.5);
+      armRoot.position = armRoot.position.subtract(center);
+
+    // Keyboard controls
+    let rotationSpeed = 0.04;
+    window.addEventListener("keydown", (ev) => {
+      switch(ev.key) {
+        case "w": armRoot.rotation.x -= rotationSpeed; break;
+        case "s": armRoot.rotation.x += rotationSpeed; break;
+        case "a": armRoot.rotation.y -= rotationSpeed; break;
+        case "d": armRoot.rotation.y += rotationSpeed; break;
+      }
+    });
+
+    // Load the blank canvas model after robot is loaded
+    BABYLON.SceneLoader.ImportMesh(
+      "", "./", "blank_canvas.glb", scene,
+      (meshes) => {
+        // wrap in a single root so it all moves together
+        const canvasRoot = new BABYLON.TransformNode("canvasRoot", scene);
+        meshes.forEach(m => {
+          m.parent = canvasRoot;
+          
+          // Add material to make it more visible
+          const canvasMaterial = new BABYLON.StandardMaterial("canvasMat", scene);
+          canvasMaterial.diffuseColor = new BABYLON.Color3(0.95, 0.95, 0.95); // Almost white
+          canvasMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1); // Low shine
+          m.material = canvasMaterial;
+        });
+
+        // 1) Lay it flat
+        canvasRoot.rotation.x = Math.PI / 2;
+
+        // 2) Scale: make it narrower (X), thicker/taller (Y), and keep depth (Z)
+        canvasRoot.scaling = new BABYLON.Vector3(10, 0.5, 20);
+
+        // 3) Position: right next to the robot at roughly its base location
+        canvasRoot.position = new BABYLON.Vector3(22, 10, 10);
+      },
+      null,
+      (scene, err) => console.error("Error loading blank_canvas.glb:", err)
+    );
+  });
+
+  // Import functionality
+  const importInput = document.getElementById('importModelInput');
+  const importBtn = document.getElementById('importModelBtn');
+
+  importBtn.addEventListener('click', () => {
+    const file = importInput.files[0];
+    if (!file) {
+      return alert('Please select a .glb file first.');
+    }
+
+    // Create the blob URL directly - do NOT append ".glb"
+    const blobUrl = URL.createObjectURL(file);
+
+    // Use ImportMesh with empty rootUrl and the blobUrl as filename
+    BABYLON.SceneLoader.ImportMesh(
+      /* meshNames */ "",
+      /* rootUrl    */ "",
+      /* sceneFilename */ blobUrl,
+      scene,
+      (meshes) => {
+        console.log('Model successfully imported:', meshes);
+        
+        // Create a transform node to handle all meshes together
+        const importRoot = new BABYLON.TransformNode("importRoot", scene);
+        meshes.forEach(m => {
+          m.parent = importRoot;
+        });
+
+        // Position and scale the entire imported model
+        importRoot.position = new BABYLON.Vector3(22, 10, 10);
+        importRoot.scaling = new BABYLON.Vector3(10, 0.5, 20);
+        importRoot.rotation.x = Math.PI / 2;
+      },
+      null,
+      (scene, message, exception) => {
+        console.error('Import failed:', message, exception);
+        alert('Failed to import model. Check console for details.');
+      }
+    );
+
+    // Cleanup: revoke the URL when no longer needed
+    URL.revokeObjectURL(blobUrl);
+  });
+
+  return scene;
+};
+
+const scene = createScene();
+engine.runRenderLoop(() => scene.render());
+window.addEventListener("resize", () => engine.resize());
+</script>
+
+<script src="script.js"></script>
+</body>
+</html> 

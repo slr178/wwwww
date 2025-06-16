@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goghai - Development Team</title>
+    <link rel="stylesheet" href="minimal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D model rendering (not required on this page but kept for consistency) -->
+    <script src="https://unpkg.com/three@0.144.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.144.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://unpkg.com/three@0.144.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <!-- Language Selection Modal -->
+    <div id="languageModal" class="language-modal">
+        <div class="language-modal-content">
+            <div class="language-header">
+                <h2>goghai</h2>
+                <p data-translate="welcome">Welcome! Please select your language.</p>
+            </div>
+            <div class="language-options">
+                <button class="language-btn" onclick="selectLanguage('en')">
+                    <div class="flag">🇺🇸</div>
+                    <div class="language-name">English</div>
+                </button>
+                <button class="language-btn" onclick="selectLanguage('ja')">
+                    <div class="flag">🇯🇵</div>
+                    <div class="language-name">日本語</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" class="logo-link">
+                        <img src="logo.png.png" alt="GoghAI Logo">
+                        <span>goghai</span>
+                    </a>
+                </h1>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link" id="homeLink" data-translate="nav_demo">Demo</a>
+                <a href="developers.html" class="nav-link active" id="developersLink" data-translate="nav_team">Meet the Team</a>
+                <a href="hardware.html" class="nav-link" data-translate="nav_hardware">Hardware Test</a>
+                <a href="gogh.html" class="nav-link">Gogh</a>
+                <a href="token.html" class="nav-link" data-translate="nav_token">Token</a>
+                <a href="live.html" class="nav-link" data-translate="nav_live">Live Requests</a>
+            </nav>
+        </header>
+
+        <div class="language-selector">
+            <button class="language-btn" data-lang="en">EN</button>
+            <button class="language-btn" data-lang="ja">日本語</button>
+        </div>
+
+        <!-- Developers Section (active) -->
+        <div id="developersSection" class="content-section active">
+            <div class="developers-content">
+                <div class="developers-header">
+                    <h1 data-translate="team_title">Meet the Development Team</h1>
+                    <p data-translate="team_subtitle">The brilliant minds behind the goghai project</p>
+                </div>
+
+                <div class="developer-showcase">
+                    <!-- Developer profile -->
+                    <div class="developer-profile">
+                        <div class="developer-image">
+                            <img src="koki.jpg" alt="Koki - Lead Developer" id="koikiImage">
+                        </div>
+                        <div class="developer-info">
+                            <h2>Koki</h2>
+                            <h3 data-translate="koki_title">Lead Robotics Engineer & AI Specialist</h3>
+                            <p>Koki earned both his M.Eng and Ph.D. from the University of Tokyo's Department of Mechano-Informatics, where his dissertation focused on compliant manipulation for service robots. Raised in Sapporo in a family of calligraphers, he merged artistic heritage with high-precision robotics, publishing a dozen papers on visual servoing before founding the goghai initiative.</p>
+                            <div class="social-links">
+                                <a href="https://x.com/tmy050301" target="_blank" rel="noopener">X</a>
+                                <a href="https://github.com/softyanija" target="_blank" rel="noopener">GitHub</a>
+                                <a href="mailto:koki.amabe@tier4.jp" target="_blank" rel="noopener">Email</a>
+                                <a href="https://kokiamabe.com/" target="_blank" rel="noopener">Website</a>
+                            </div>
+
+                            <div class="expertise-areas">
+                                <h4 data-translate="expertise_title">Areas of Expertise</h4>
+                                <div class="expertise-tags">
+                                    <span class="expertise-tag" data-translate="expertise_robotics">Robotics Engineering</span>
+                                    <span class="expertise-tag" data-translate="expertise_ml">Machine Learning</span>
+                                    <span class="expertise-tag" data-translate="expertise_vision">Computer Vision</span>
+                                    <span class="expertise-tag" data-translate="expertise_control">Control Systems</span>
+                                    <span class="expertise-tag" data-translate="expertise_ai">AI Algorithms</span>
+                                </div>
+                            </div>
+
+                            <div class="achievements">
+                                <h4 data-translate="achievements_title">Key Achievements</h4>
+                                <ul>
+                                    <li data-translate="achievement_ai">Developed proprietary AI art generation algorithms</li>
+                                    <li data-translate="achievement_control">Designed precision control systems for artistic movements</li>
+                                    <li data-translate="achievement_vision">Integrated computer vision for real-time canvas analysis</li>
+                                    <li data-translate="achievement_brush">Created adaptive brush stroke techniques</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portrait demo -->
+                    <div class="portrait-demo">
+                        <div class="portrait-container">
+                            <video id="portraitVideo" autoplay muted loop>
+                                <source src="portraitrobot.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="portrait-overlay">
+                                <div class="portrait-info">
+                                    <h3 data-translate="portrait_title">GoghAI Drawing Koki's Portrait</h3>
+                                    <p data-translate="portrait_description">Watch the GoghAI system create a detailed portrait of our lead developer</p>
+                                </div>
+                                <div class="portrait-controls">
+                                    <button id="portraitMuteBtn" class="control-btn" data-translate="btn_mute">MUTE</button>
+                                    <button id="portraitFullscreenBtn" class="control-btn" data-translate="btn_full">FULL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW DEVELOPER PROFILE -->
+                <div class="developer-profile">
+                    <div class="developer-image">
+                        <img src="obinawa.jpg" alt="Yoshiki Obinata" />
+                    </div>
+                    <div class="developer-info">
+                        <h2>Yoshiki Obinata</h2>
+                        <h3 data-translate="yoshiki_title">Robotics Software Engineer & Researcher</h3>
+                        <p data-translate="yoshiki_bio">Yoshiki completed his B.Eng. at Kyoto University and then joined JSK Robotics Lab for doctoral research on open-source perception stacks for industrial arms. Growing up in Yokohama surrounded by classical painters, he now blends deep-learning aesthetics with ROS software engineering to give the robot its own creative flair.</p>
+
+                        <div class="expertise-areas">
+                            <h4 data-translate="expertise_title">Areas of Expertise</h4>
+                            <div class="expertise-tags">
+                                <span class="expertise-tag" data-translate="yoshiki_expertise_software">Robotics Software</span>
+                                <span class="expertise-tag" data-translate="yoshiki_expertise_ros">ROS</span>
+                                <span class="expertise-tag" data-translate="yoshiki_expertise_vision">Computer Vision</span>
+                                <span class="expertise-tag" data-translate="yoshiki_expertise_ml">Machine Learning</span>
+                                <span class="expertise-tag" data-translate="yoshiki_expertise_opensource">Open Source</span>
+                            </div>
+                        </div>
+
+                        <div class="achievements">
+                            <h4 data-translate="yoshiki_achievements_title">Highlights</h4>
+                            <ul>
+                                <li data-translate="yoshiki_achievement_1">Contributor to JSK ROS packages and open-source robotics tools</li>
+                                <li data-translate="yoshiki_achievement_2">Authored research papers on robotic perception and manipulation</li>
+                                <li data-translate="yoshiki_achievement_3">Active maintainer of diverse robotics software repositories</li>
+                            </ul>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/yoshikiobinata" target="_blank" rel="noopener">LinkedIn</a>
+                            <a href="https://github.com/mqcmd196" target="_blank" rel="noopener">GitHub</a>
+                            <a href="https://x.com/YoshikiObinata" target="_blank" rel="noopener">X</a>
+                            <a href="https://www.yoshiki-obinata.com/" target="_blank" rel="noopener">Website</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- END NEW DEVELOPER PROFILE -->
+
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <h3 data-translate="contact_title">Get in Touch</h3>
+                    <p data-translate="contact_subtitle">Interested in collaborating or learning more about our robotic art technology?</p>
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" data-translate="form_name">Name</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" data-translate="form_email">Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject" data-translate="form_subject">Subject</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" data-translate="form_message">Message</label>
+                                <textarea id="message" name="message" rows="5" required data-translate-placeholder="form_message_placeholder"></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn" data-translate="form_submit">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <!-- Force-activate developers section on this dedicated page -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof showSection === 'function') {
+                showSection('developers');
+            }
+        });
+    </script>
+</body>
+</html> 

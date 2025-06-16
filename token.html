@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goghai - GoghAI Token</title>
+    <link rel="stylesheet" href="minimal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Selection Modal -->
+    <div id="languageModal" class="language-modal">
+        <div class="language-modal-content">
+            <div class="language-header">
+                <h2>goghai</h2>
+                <p data-translate="welcome">Welcome! Please select your language.</p>
+            </div>
+            <div class="language-options">
+                <button class="language-btn" onclick="selectLanguage('en')">
+                    <div class="flag">🇺🇸</div>
+                    <div class="language-name">English</div>
+                </button>
+                <button class="language-btn" onclick="selectLanguage('ja')">
+                    <div class="flag">🇯🇵</div>
+                    <div class="language-name">日本語</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1><a href="index.html" class="logo-link">goghai</a></h1>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link" data-translate="nav_demo">Demo</a>
+                <a href="developers.html" class="nav-link" data-translate="nav_team">Meet the Team</a>
+                <a href="hardware.html" class="nav-link" data-translate="nav_hardware">Hardware Test</a>
+                <a href="gogh.html" class="nav-link">Gogh</a>
+                <a href="token.html" class="nav-link active" data-translate="nav_token">Token</a>
+                <a href="live.html" class="nav-link" data-translate="nav_live">Live Requests</a>
+            </nav>
+        </header>
+
+        <div class="language-selector">
+            <button class="language-btn" data-lang="en">EN</button>
+            <button class="language-btn" data-lang="ja">日本語</button>
+        </div>
+
+        <!-- Token Content -->
+        <div class="token-page-content">
+            <!-- Hero Section -->
+            <div class="token-hero">
+                <h1 data-translate="token_page_title">GoghAI Token Project</h1>
+                <p data-translate="token_page_subtitle">The World's First Robotic Art Cryptocurrency</p>
+                <div class="token-hero-description">
+                    <p data-translate="token_hero_desc">We're pioneering the intersection of AI robotics, blockchain technology, and artistic expression. GoghAI represents the future of autonomous creative communities.</p>
+                </div>
+            </div>
+
+            <!-- Main Token Section -->
+            <div class="token-section">
+                <div class="token-container">
+                    <div class="token-content">
+                        <h1 data-translate="token_title">GoghAI Token</h1>
+                        <div class="token-header">
+                            <p class="token-main-desc" data-translate="token_description">The main token for our GoghAI brand. CA:</p>
+                            <a href="https://x.com/tmy050301" target="_blank" class="twitter-link" data-translate="token_twitter">Follow our founder</a>
+                        </div>
+                        
+                        <div class="token-narrative">
+                            <p class="highlight-text" data-translate="token_feature_art_desc">Token fees directly fund new prototypes and enhanced robotic arm capabilities. Your trades help build better art.</p>
+                            
+                            <p class="tech-text" data-translate="token_feature_ai_desc">Every transaction improves our tech. From precision motors to advanced sensors, we're constantly upgrading.</p>
+                            
+                            <div class="fee-highlight">
+                                <p data-translate="token_fees_desc">2% of each transaction goes directly to robotic arm R&D. Better motors, enhanced precision, new prototypes - your trades build the future of robotic art.</p>
+                            </div>
+                            
+                            <p class="vision-text" data-translate="token_comparison_text">Take $FWOG for example. Now imagine an AI generating its own character and building art all around that character. That's what we're doing with GoghAI.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roadmap Section -->
+            <div class="roadmap-section">
+                <h2 data-translate="roadmap_title">Project Roadmap</h2>
+                <div class="roadmap-timeline">
+                    <div class="roadmap-item">
+                        <div class="roadmap-phase">Phase 1</div>
+                        <h3 data-translate="roadmap_phase1_title">Token Launch & Community Building</h3>
+                        <p data-translate="roadmap_phase1_desc">Launch GoghAI token and establish the foundational community of art and technology enthusiasts.</p>
+                        <div class="roadmap-status current" data-translate="roadmap_current">Current</div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-phase">Phase 2</div>
+                        <h3 data-translate="roadmap_phase2_title">AI Art Platform Development</h3>
+                        <p data-translate="roadmap_phase2_desc">Enhance the robotic art creation system and develop the full AI art generation platform.</p>
+                        <div class="roadmap-status upcoming" data-translate="roadmap_upcoming">Q2 2025</div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-phase">Phase 3</div>
+                        <h3 data-translate="roadmap_phase3_title">Physical Art Exhibitions</h3>
+                        <p data-translate="roadmap_phase3_desc">Launch physical art galleries, exhibitions, and limited edition robotic art pieces.</p>
+                        <div class="roadmap-status future" data-translate="roadmap_future">Q4 2025</div>
+                    </div>
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-phase">Phase 4</div>
+                        <h3 data-translate="roadmap_phase4_title">Global Art Ecosystem</h3>
+                        <p data-translate="roadmap_phase4_desc">Establish a worldwide network of robotic art installations and NFT marketplace integration.</p>
+                        <div class="roadmap-status future" data-translate="roadmap_future2">2026</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="future-token-section">
+                <p data-translate="token_future_release">In the future, we're releasing a dedicated art token for our robotic art ecosystem.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

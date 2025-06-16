@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>goghai - Live Requests</title>
+  <link rel="stylesheet" href="minimal.css">
+  <style>
+    .live-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stream-section {
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .coming-soon {
+      color: white;
+      font-size: 2em;
+      font-weight: 500;
+      margin: 100px 0;
+    }
+
+    .request-section {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .request-form {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .request-form textarea {
+      width: 100%;
+      height: 100px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .request-form button {
+      background: #0066ff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.2s;
+    }
+
+    .request-form button:hover {
+      background: #0052cc;
+    }
+
+    .request-form button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .section-title {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .section-description {
+      color: #666;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .language-selector {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 10;
+    }
+
+    .language-btn {
+      padding: 5px 10px;
+      margin-left: 10px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .language-btn:hover,
+    .language-btn.active {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <h1>
+        <a href="index.html" class="logo-link">
+          <img src="logo.png.png" alt="GoghAI Logo">
+          <span>goghai</span>
+        </a>
+      </h1>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link" data-translate="nav_demo">Demo</a>
+      <a href="developers.html" class="nav-link" data-translate="nav_team">Meet the Team</a>
+      <a href="hardware.html" class="nav-link" data-translate="nav_hardware">Hardware Test</a>
+      <a href="gogh.html" class="nav-link">Gogh</a>
+      <a href="token.html" class="nav-link" data-translate="nav_token">Token</a>
+      <a href="live.html" class="nav-link active" data-translate="nav_live">Live Requests</a>
+    </nav>
+  </header>
+
+  <div class="language-selector">
+    <button class="language-btn" data-lang="en">EN</button>
+    <button class="language-btn" data-lang="ja">日本語</button>
+  </div>
+
+  <main class="container">
+    <div class="live-content">
+      <h1 data-translate="live_title">Live Requests</h1>
+      
+      <div class="stream-container">
+        <div class="offline-screen">
+          <div class="offline-content">
+            <div class="offline-icon">●</div>
+            <h2>OFFLINE</h2>
+            <p>Next stream starts in:</p>
+            <div class="countdown" id="countdown">
+              <div class="countdown-item">
+                <span class="countdown-value" id="days">00</span>
+                <span class="countdown-label">DAYS</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-value" id="hours">00</span>
+                <span class="countdown-label">HOURS</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-value" id="minutes">00</span>
+                <span class="countdown-label">MINUTES</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="upcoming-events">
+        <div class="events-header">
+          <h2>Upcoming Live Sessions</h2>
+          <div class="timezone-selector">
+            <label for="timezone">Timezone:</label>
+            <select id="timezone" onchange="updateTimes()">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">New York (EDT)</option>
+              <option value="America/Los_Angeles">Los Angeles (PDT)</option>
+              <option value="Asia/Tokyo">Tokyo (JST)</option>
+              <option value="Europe/London">London (BST)</option>
+              <option value="Europe/Paris">Paris (CEST)</option>
+            </select>
+          </div>
+        </div>
+        <div class="event-list">
+          <div class="event-item">
+            <div class="event-date">June 15th</div>
+            <div class="event-time" data-time="16:00">4:00 PM</div>
+            <div class="event-title">PROTOTYPE 3B: INITIAL CHARACTER CREATION</div>
+            <div class="event-desc">Watch our AI generate and create its first character design, setting the foundation for our unique art style.</div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">June 17th</div>
+            <div class="event-time" data-time="18:00">6:00 PM</div>
+            <div class="event-title">FIRST ARTWORK WITH BACKGROUND</div>
+            <div class="event-desc">Live creation of our first complete artwork featuring the character in a detailed environment.</div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">June 19th</div>
+            <div class="event-time" data-time="21:00">9:00 PM</div>
+            <div class="event-title">SECOND ARTWORK WITH BACKGROUND</div>
+            <div class="event-desc">Expanding our artistic capabilities with a new scene and enhanced background integration.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="request-section">
+        <h2 data-translate="live_request_title">Submit Your Drawing Request</h2>
+        <p data-translate="live_request_desc">Describe what you'd like the robot to draw. Your request will be processed in real-time during the next live session.</p>
+        
+        <div class="request-form">
+          <textarea 
+            placeholder="Describe your drawing request... (e.g., 'A minimalist landscape with mountains and a setting sun')"
+            data-translate-placeholder="live_request_placeholder"
+          ></textarea>
+          <button type="submit" disabled data-translate="live_submit">Submit Request</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    // Initialize language system
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set up language buttons
+      const langButtons = document.querySelectorAll('.language-btn');
+      langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lang = btn.dataset.lang;
+          setLanguage(lang);
+          langButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      // Set initial language
+      const currentLang = localStorage.getItem('language') || 'en';
+      setLanguage(currentLang);
+      document.querySelector(`[data-lang="${currentLang}"]`).classList.add('active');
+
+      // Placeholder for future live functionality
+      document.querySelector('.request-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert(translations[currentLang].live_coming_soon);
+      });
+    });
+
+    // Set default timezone based on user's location
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById('timezone').value = userTimezone;
+
+    function updateTimes() {
+      const selectedTimezone = document.getElementById('timezone').value;
+      const eventTimes = document.querySelectorAll('.event-time');
+      const dates = document.querySelectorAll('.event-date');
+      
+      eventTimes.forEach((timeElement, index) => {
+        const baseTime = timeElement.getAttribute('data-time');
+        const date = dates[index].textContent;
+        const dateTimeStr = `2024-${date.replace('th', '')} ${baseTime}:00`;
+        const utcDate = new Date(dateTimeStr + ' UTC');
+        
+        // Convert to selected timezone
+        const options = {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+          timeZone: selectedTimezone
+        };
+        
+        const convertedTime = new Intl.DateTimeFormat('en-US', options).format(utcDate);
+        timeElement.textContent = convertedTime;
+
+        // Update countdown if this is the next event
+        if (index === 0) {
+          updateCountdown(utcDate);
+        }
+      });
+    }
+
+    function updateCountdown(nextEventDate) {
+      const now = new Date();
+      const diff = nextEventDate - now;
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      }
+    }
+
+    // Initial time update
+    updateTimes();
+
+    // Update countdown every minute
+    setInterval(() => {
+      updateTimes();
+    }, 60000);
+  </script>
+</body>
+</html> 

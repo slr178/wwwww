@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goghai – Gogh</title>
+  <link rel="stylesheet" href="minimal.css" />
+  <style>
+    .gogh-ai-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    #svgOverlay { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      pointer-events: none; 
+    }
+    .canvas-container {
+      position: relative;
+      width: 800px;
+      height: 800px;
+      margin: 20px auto;
+    }
+    #sketchCanvas {
+      border: 1px dashed #888;
+      width: 800px;
+      height: 800px;
+    }
+    .input-group {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    #styleDesc {
+      width: 300px;
+      padding: 8px;
+    }
+    .input-group button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    input[type="file"] {
+      max-width: 300px;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      justify-content: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .control-group label {
+      font-weight: 500;
+    }
+    .value-display {
+      min-width: 30px;
+      text-align: right;
+    }
+    .description {
+      text-align: center;
+      color: #666;
+      margin: 20px 0;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+        <h1>
+            <a href="index.html" class="logo-link">
+                <img src="logo.png.png" alt="GoghAI Logo">
+                <span>goghai</span>
+            </a>
+        </h1>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link" data-translate="nav_demo">Demo</a>
+      <a href="developers.html" class="nav-link" data-translate="nav_team">Meet the Team</a>
+      <a href="hardware.html" class="nav-link" data-translate="nav_hardware">Hardware Test</a>
+      <a href="gogh.html" class="nav-link active">Gogh</a>
+      <a href="token.html" class="nav-link" data-translate="nav_token">Token</a>
+      <a href="live.html" class="nav-link" data-translate="nav_live">Live Requests</a>
+    </nav>
+  </header>
+
+  <div class="language-selector">
+    <button class="language-btn" data-lang="en">EN</button>
+    <button class="language-btn" data-lang="ja">日本語</button>
+  </div>
+
+  <main class="container" style="padding-top:40px;">
+    <div class="gogh-ai-section">
+      <h2 data-translate="gogh_title">Gogh – Robotic Sketch</h2>
+      <p class="description" data-translate="gogh_description">Create sketches using text prompts or upload your own images. Watch as the robot arm brings your ideas to life, stroke by stroke.</p>
+
+      <!-- Text prompt flow -->
+      <div class="input-group">
+        <input type="text" id="styleDesc" data-translate-placeholder="gogh_prompt_placeholder" placeholder="e.g. fine pencil lines">
+        <button id="promptBtn" class="primary-btn" data-translate="ai_sketch">AI SKETCH</button>
+      </div>
+
+      <!-- File upload flow -->
+      <div class="input-group">
+        <input type="file" id="imgUpload" accept="image/*">
+        <button id="imageBtn" class="primary-btn" disabled data-translate="sketch_from_image">SKETCH FROM IMAGE</button>
+      </div>
+
+      <!-- Sketch controls -->
+      <div class="controls">
+        <div class="control-group">
+          <label data-translate="threshold">Threshold:</label>
+          <input type="range" id="threshold" min="0" max="255" value="128">
+          <span id="thresholdValue" class="value-display">128</span>
+        </div>
+        <div class="control-group">
+          <label data-translate="stroke_width">Stroke Width:</label>
+          <input type="range" id="strokeWidth" min="0.5" max="5" step="0.5" value="1">
+          <span id="strokeWidthValue" class="value-display">1</span>
+        </div>
+        <div class="control-group">
+          <label data-translate="blur">Blur:</label>
+          <input type="range" id="blur" min="0" max="5" step="0.5" value="1">
+          <span id="blurValue" class="value-display">1</span>
+        </div>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="sketchCanvas" width="800" height="800"></canvas>
+        <div id="svgOverlay"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/imagetracer_v1.2.6.min.js"></script>
+  <script src="gogh_ai.js"></script>
+  <script src="script.js"></script>
+</body>
+</html> 

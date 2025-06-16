@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goghai - Robotic Arm Art Creation</title>
+    <link rel="stylesheet" href="minimal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D model rendering -->
+    <script src="https://unpkg.com/three@0.144.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.144.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://unpkg.com/three@0.144.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+  <body>
+    <!-- Language Selection Modal -->
+    <div id="languageModal" class="language-modal">
+        <div class="language-modal-content">
+            <div class="language-header">
+                <h2>goghai</h2>
+                <p data-translate="welcome">Welcome! Please select your language.</p>
+            </div>
+            <div class="language-options">
+                <button class="language-btn" onclick="selectLanguage('en')">
+                    <div class="flag">🇺🇸</div>
+                    <div class="language-name">English</div>
+                </button>
+                <button class="language-btn" onclick="selectLanguage('ja')">
+                    <div class="flag">🇯🇵</div>
+                    <div class="language-name">日本語</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" class="logo-link">
+                        <img src="logo.png.png" alt="GoghAI Logo">
+                        <span>goghai</span>
+                    </a>
+                </h1>
+            </div>
+            <div class="header-info">
+                <div class="demo-indicator">
+                    <span class="demo-dot"></span>
+                    DEMO
+                </div>
+                <nav class="main-nav">
+                    <a href="#home" class="nav-link active" id="homeLink" data-translate="nav_demo">Demo</a>
+                    <a href="developers.html" class="nav-link" data-translate="nav_team">Meet the Team</a>
+                    <a href="hardware.html" class="nav-link" data-translate="nav_hardware">Hardware Test</a>
+                    <a href="gogh.html" class="nav-link">Gogh</a>
+                    <a href="token.html" class="nav-link" data-translate="nav_token">Token</a>
+                    <a href="live.html" class="nav-link" data-translate="nav_live">Live Requests</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="language-selector">
+            <button class="language-btn" data-lang="en">EN</button>
+            <button class="language-btn" data-lang="ja">日本語</button>
+        </div>
+
+        <!-- Main Content -->
+        <div id="homeSection" class="content-section active">
+            <div class="main-content">
+                <!-- Video Section -->
+                <div class="video-section">
+                    <div class="video-container">
+                        <video id="mainVideo" autoplay muted loop>
+                            <source src="demo1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay">
+                                                    <div class="demo-info">
+                            <h2 data-translate="demo_title">Robotic Arm Art Creation Demo</h2>
+                            <p data-translate="demo_description">Watch our AI-powered robotic arm create stunning artwork with precision and creativity</p>
+                        </div>
+                        <div class="video-controls">
+                            <button id="muteBtn" class="control-btn" data-translate="btn_mute">MUTE</button>
+                            <button id="fullscreenBtn" class="control-btn" data-translate="btn_full">FULL</button>
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Demo Stats -->
+                    <div class="demo-stats">
+                        <div class="stat">
+                            <span class="stat-value">1080p</span>
+                            <span class="stat-label" data-translate="stat_quality">Quality</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">Demo 1</span>
+                            <span class="stat-label" data-translate="stat_version">Version</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" data-translate="stat_continuous">Continuous</span>
+                            <span class="stat-label" data-translate="stat_playback">Playback</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GitHub Repository Section -->
+                <div class="github-section">
+                    <div class="github-container">
+                        <div class="github-content">
+                            <h2 data-translate="github_title">Open Source Development</h2>
+                            <p data-translate="github_description">Explore our distributed vision device system for robotic operations. View source code, contribute, and learn more about the technical implementation.</p>
+                            <div class="github-buttons">
+                                <a href="https://github.com/softyanija/distributed-vision-device" target="_blank" class="github-primary-btn" data-translate="github_view_btn">
+                                    View on GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D Model Section -->
+                <div class="model-section">
+                    <div class="model-container">
+                        <div id="threejs-container"></div>
+                        <div class="model-overlay">
+                                                    <div class="model-info">
+                            <h2 data-translate="model_title">Interactive 3D Model</h2>
+                            <p data-translate="model_description">Explore the robotic arm design in 3D - rotate, zoom, and examine every detail</p>
+                        </div>
+                        <div class="model-controls">
+                            <a href="hardware.html" class="explore-btn">EXPLORE</a>
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Stats -->
+                    <div class="model-stats">
+                        <div class="stat">
+                            <span class="stat-value">3D</span>
+                            <span class="stat-label" data-translate="stat_model">Model</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" data-translate="stat_interactive">Interactive</span>
+                            <span class="stat-label" data-translate="stat_controls">Controls</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">GLB</span>
+                            <span class="stat-label" data-translate="stat_format">Format</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gogh AI Section -->
+                <div class="gogh-ai-section" id="goghSection">
+                </div>
+
+                <!-- Info Panel -->
+                <div class="info-section">
+                    <div class="project-info-card">
+                                                <div class="project-header">
+                            <div class="project-avatar">ART</div>
+                            <div class="project-details">
+                                <h3 data-translate="project_title">goghai Project</h3>
+                                <p data-translate="project_subtitle">Advanced AI-powered robotic art creation system</p>
+                            </div>
+                        </div>
+                        
+                        <div class="project-description">
+                            <h4 data-translate="about_demo">About This Demo</h4>
+                            <p data-translate="demo_long_description">This demonstration showcases our cutting-edge robotic arm system that combines artificial intelligence, computer vision, and precise mechanical control to create unique artwork. The robot analyzes artistic patterns, selects appropriate colors, and executes brush strokes with remarkable precision.</p>
+                            
+                            <div class="tech-stack">
+                                <h4 data-translate="tech_stack">Technology Stack</h4>
+                                <div class="tags">
+                                    <span class="tag">Robotic Arm</span>
+                                    <span class="tag">Artificial Intelligence</span>
+                                    <span class="tag">Computer Vision</span>
+                                    <span class="tag">Machine Learning</span>
+                                    <span class="tag">Digital Art</span>
+                                    <span class="tag">Automation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="additional-info">
+            <div class="demo-controls">
+                <h3 data-translate="demo_controls_title">Demo Controls</h3>
+                <div class="control-buttons">
+                    <button id="restartBtn" class="demo-btn" data-translate="btn_restart">Restart Demo</button>
+                    <button id="slowMotionBtn" class="demo-btn" data-translate="btn_slow">Slow Motion</button>
+                    <button id="normalSpeedBtn" class="demo-btn" data-translate="btn_normal">Normal Speed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="gogh_ai.js"></script>
+</body>
+</html> 
