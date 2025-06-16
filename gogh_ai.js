@@ -167,7 +167,7 @@
      viewIn3DBtn.textContent = 'View in 3D Simulator';
      viewIn3DBtn.className = 'primary-btn view3d-btn';
      viewIn3DBtn.style.marginLeft = '10px';
-     viewIn3DBtn.onclick = () => window.location.href = 'hardware.html';
+     viewIn3DBtn.onclick = () => window.location.href = '/hardware';
      document.querySelector('.controls').appendChild(viewIn3DBtn);
    }
  }

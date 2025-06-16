@@ -2,7 +2,60 @@
   publish = "."
   functions = "netlify/functions"
 
+# API redirects
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
-  status = 200 
+  status = 200
+
+# Clean URL redirects - remove .html extensions
+[[redirects]]
+  from = "/gogh"
+  to = "/gogh.html"
+  status = 200
+
+[[redirects]]
+  from = "/hardware"
+  to = "/hardware.html"
+  status = 200
+
+[[redirects]]
+  from = "/developers"
+  to = "/developers.html"
+  status = 200
+
+[[redirects]]
+  from = "/live"
+  to = "/live.html"
+  status = 200
+
+[[redirects]]
+  from = "/token"
+  to = "/token.html"
+  status = 200
+
+# Redirect .html URLs to clean URLs (301 permanent redirect)
+[[redirects]]
+  from = "/gogh.html"
+  to = "/gogh"
+  status = 301
+
+[[redirects]]
+  from = "/hardware.html"
+  to = "/hardware"
+  status = 301
+
+[[redirects]]
+  from = "/developers.html"
+  to = "/developers"
+  status = 301
+
+[[redirects]]
+  from = "/live.html"
+  to = "/live"
+  status = 301
+
+[[redirects]]
+  from = "/token.html"
+  to = "/token"
+  status = 301 
