@@ -4,7 +4,6 @@
   "description": "Netlify functions for Gogh AI",
   "type": "module",
   "dependencies": {
-    "node-fetch": "^3.3.2",
     "openai": "^4.28.0"
   }
 } 
